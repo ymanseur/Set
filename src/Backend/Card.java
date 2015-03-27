@@ -16,4 +16,9 @@ public class Card {
         this.shape = shape;
         this.count = count;
     }
+
+    public Card(int i)
+    {
+        this.color =
+    }
 }
