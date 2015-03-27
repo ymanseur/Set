@@ -7,9 +7,9 @@ package Backend;
 public class Card {
     //Possible colors
     public final static int RED = 0;
-	public final static int GREEN = 1;
-	public final static int PURPLE = 2;
-	//Possible patterns
+    public final static int GREEN = 1;
+    public final static int PURPLE = 2;
+    //Possible patterns
 	public final static int SOLID = 0;
 	public final static int STRIPED = 1;
 	public final static int OUTLINED = 2;
