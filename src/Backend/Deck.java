@@ -10,7 +10,7 @@ public class Deck {
 	public Card[] deck;
 	
 	public Deck() {
-		this.cardsRemaining = 84;
+		this.cardsRemaining = 81;
 		deck = new Card[this.cardsRemaining];
 		int cardCount = 0; // Number of cards created
 		
