@@ -1,10 +1,6 @@
 import java.util.Scanner;
 import backend.*;
 
-/**
-* Main file I created to roughly test things
-*/
-
 public class Main {
 	
 	public static void play(){
@@ -18,17 +14,15 @@ public class Main {
 	public static void main(String[] args){
 		Scanner scan = new Scanner(System.in);
 		Player p1;
-		String username, password;
+		String username;
 		String choice;
 		boolean quit = false;
 		
 		System.out.println("Welcome to the game of Set!");
 		System.out.print("Please enter your username: ");
 		username = scan.nextLine();
-		System.out.print("Please enter your password: ");
-		password = scan.nextLine();
 
-		p1 = new Player(username, password);
+		p1 = new Player(username,1,0);
 		
 		do{
 			System.out.println("Would you like to start a new game?");
@@ -45,5 +39,4 @@ public class Main {
 		
 		System.out.println("\nThank you for playing!");
 	}
-
 }
