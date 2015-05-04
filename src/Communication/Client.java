@@ -1,12 +1,9 @@
 package Communication;
 
-import java.io.PrintWriter;
-
 /**
  * @author MSmarsch
  */
 public class Client {
-    public static PrintWriter(oStream);
     public int userID;
     public String username;
     public String password;

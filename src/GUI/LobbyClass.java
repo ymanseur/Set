@@ -1,4 +1,4 @@
-package setGUIjkdg;
+package GUI;
 
 //importing necessary libraries
 import java.awt.*; //imports AWT

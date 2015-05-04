@@ -1,4 +1,4 @@
-package backend;
+package Backend;
 import java.util.*;
 
 public class Scoring {
