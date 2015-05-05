@@ -32,7 +32,7 @@ public class Player {
 	}
 	
 	@Override public String toString(){
-		return (id + "_" + score);
+		return (id + "_" + score + "_");
 	}
 	
 }
