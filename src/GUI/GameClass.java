@@ -1,4 +1,4 @@
-package setGUIjkdg;
+package GUI;
 
 import javax.swing.*;
 

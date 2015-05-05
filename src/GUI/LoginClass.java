@@ -1,4 +1,4 @@
-package setGUIjkdg;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout; //imports AWT
@@ -29,9 +29,6 @@ import javax.swing.JTextField;
 //swing event
 // input/output
 
-
-
-import setGUIjkdg.LobbyClass.JoinGameAction;
 
 //main class for the other GUIs that will contain the main frame extended from JFrame
 //and implements ActionListener

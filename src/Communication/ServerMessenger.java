@@ -399,9 +399,70 @@ public class ServerMessenger extends Messenger {
             }
             else
             {
-                messageGame()
+                messageGame(oldGame, "T~" + leaving.username + " left the game.");
+                messageGame(oldGame, oldGame.NamesToString());
+                if(oldGame.isInactive())
+                {
+                    sendMessage(-1, "U~Y~" + leaving.roomID);
+                }
+                if(oldGame.isPlaying())
+                {
+                    leaving.rating -= 10;
+                    if(!db.Update(leaving))
+                    {
+                        System.err.println("User could not be located.");
+                    }
+
+                    if(oldGame.NumPlayers() == 1)
+                    {
+                        oldGame.setCompleted();
+                        endGame(oldGame);
+                    }
+                }
             }
         }
+    leaving.roomID = -1;
+    }
 
+    void LobbyChat(int userID, String[] parsedMessage)
+    {
+        if (parsedMessage.length != 2) {
+            System.err.println("Chat Request Error.");
+            return;
+        }
+        Client sender = users.get(userID);
+        Game currGame = games.get(sender.roomID);
+        messageGame(currGame, "T~" + sender.username + "~" + parsedMessage[1]);
+    }
+
+    void GameChat(int userID, String[] parsedMessage)
+    {
+        if (parsedMessage.length != 2) {
+            System.err.println("Game Chat Request Error.");
+            return;
+        }
+        Client sender = users.get(userID);
+        Game currGame = games.get(sender.roomID);
+        messageGame(currGame, "T~" + sender.username + "~" + parsedMessage[1]);
+    }
+
+    void GameMessage(int userID, String[] parsedMessage)
+    {
+        if(parsedMessage.length != 2)
+        {
+            System.err.println("Game Message Request Error.");
+        }
+        Client sender = users.get(userID);
+        Game currGame = sender.roomID;
+        messageGame(currGame, "T~" + parsedMessage[1]);
+    }
+
+    void messageGame(Game currGame, String message)
+    {
+        List<Integer> ids = currGame.playerIDs();
+        for(Integer id : ids)
+        {
+            sendMessage(id, message);
+        }
     }
 }
