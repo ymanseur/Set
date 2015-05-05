@@ -93,7 +93,7 @@ public class Card {
     }
     
     @Override public String toString(){
-    	return (this.getColor() + " " + this.getPattern() + " " + this.getShape() + " " + this.getCount());
+    	return (this.getColor() + "_" + this.getPattern() + "_" + this.getShape() + "_" + this.getCount());
     }
     
 }
