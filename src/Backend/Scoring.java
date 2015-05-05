@@ -35,6 +35,8 @@ public class Scoring {
 		String text = "";
 		for(int i=0; i<players.size(); i++)
 			text += players.get(i).toString();
+		//get rid of last underscore
+		text = text.substring(0, text.length()-1);
 		return text;
 	}
 }
