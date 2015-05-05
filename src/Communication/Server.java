@@ -23,8 +23,12 @@ public class Server {
                 System.out.println("Client connecting from: " + SOCKET.getLocalAddress().getHostName());
                 sockNum++;
                 sockets.put(sockNum, SOCKET);
-                ServerThread serverThread = new ServerThread(sockNum, SOCKET)
+                ServerThread serverThread = new ServerThread(sockNum, SOCKET);
             }
+        }
+        catch(IOException e)
+        {
+            System.err.println("IOException caught.");
         }
     }
 }

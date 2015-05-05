@@ -205,10 +205,203 @@ public class ServerMessenger extends Messenger {
                     if(curr.numPlayers() > 0)
                     {
                         messageGame(curr, "T~" + disconnect.username + " disconnected");
-                        
+                        messageGame(curr, curr.NamesToString());
+
+                        if(curr.isPlaying())
+                        {
+                            disconnect.rating -= 10;
+                            if(!db.updateUser(disconnect))
+                            {
+                                System.err.println("User could not be found.");
+                            }
+                            if(curr.numPlayers() == 1)
+                            {
+                                curr.Completed();
+                                endGame(curr);
+                            }
+                        }
+                        else
+                        {
+                            messageGame(curr, "T~" + disconnect.username + " disconnected! Press ready to start game.");
+                            curr.resetReady();
+                            messageGame(curr, "G~R");
+                        }
+                    }
+                    else
+                    {
+                        if(curr.isInactive())
+                        {
+                            curr.Remove();
+                            sendMessage(-1, "U~R~" + disconnect.roomID);
+                        }
+                        games.remove(disconnect.roomID);
                     }
                 }
+                else
+                {
+                    System.err.println("Shouldn't Be Here Ever.");
+                }
+            }
+            users.remove(userID);
+        }
+    }
+
+    void NewGame(int userID, String[] parsedMessage)
+    {
+        if (parsedMessage.length != 3)
+        {
+            sendMessage(userID, "X~Invalid New Game Request");
+            System.err.println("New Game Error.");
+            return;
+        }
+        Client creator = users.get(userID);
+        if(creator.roomID >= 0)
+        {
+            sendMessage(userID, "A");
+            return;
+        }
+        creator.roomID = numRooms;
+        Game newGame = new Game(parsedMessage[1], Integer.parseInt(parsedMessage[2]));
+        newGame.add(userID, creator.username);
+        sendMessage(userID, newGame.NamesToString());
+        sendMessage(-1, "U~A~" + numRooms + "~" + parsedMessage[1] + "~" + newGame.numPlayers() + "~" + newGame.getMaxNumPlayers() + "~Inactive");
+        sendMessage(-1, "C~" + creator.username + " created a new game! Name: " + parsedMessage[1] + " ID: " + numRooms);
+        ++numRooms;
+    }
+
+    void Join(int userID, String[] parsedMessage)
+    {
+        if (messagePieces.length != 2) {
+            System.err.println("Join Game Error!");
+            return;
+        }
+        Client join = users.get(userID);
+        if(join.roomID >=0)
+        {
+            sendMessage(userID, "A");
+            return;
+        }
+        join.roomID = Integer.parseInt(parsedMessage[1]);
+        Game joinedRoom = games.get(join.roomID);
+        if(joinedRoom == null)
+        {
+            System.err.println("No Game Room Found.");
+            join.roomID = -1;
+        }
+        else
+        {
+            if(joinedRoom.getNumPlayers() < joinedRoom.getMaxNumPlayers())
+            {
+                if(joinedRoom.isPlaying())
+                {
+                    join.roomID = -1;
+                    sendMessage(userID, "J~I");
+                }
+                else
+                {
+                    joinedRoom.add(userID, join.username);
+                    sendMessage(userID, "J~J");
+                    messageGame(joinedRoom, joinedRoom.NamesToString());
+                    sendMessage(-1, "C~" + join.username + " joined " + joinedRoom.getName() + " with ID " + parsedMessage[1]);
+                    sendMessage(-1, "U~X~" + join.roomID);
+                    messageGame(joinedRoom, "T~" + join.username + " joined.");
+                }
+            }
+            else
+            {
+                join.roomID = -1;
+                sendMessage(userID, "J~F");
             }
         }
+    }
+
+    void Ready(int userID, String[] parsedMessage)
+    {
+        if(parsedMessage.length != 1)
+        {
+            System.err.println("Ready Request Error");
+        }
+        Client ready = users.get(userID);
+        Game currGame = games.get(ready.roomID);
+        if(currGame != null)
+        {
+            currGame.incNumReady();
+            messageGame(currGame, "T~" + ready.username + "is ready to play!");
+            if(currGame.getNumPlayers() == currGame.getNumReady())
+            {
+                currGame.startPlaying();
+                messageGame(currGame, "T~Beginning Game...");
+                messageGame(currGame, currGame.initializeGame());
+                currGame.setRemoved();
+                sendMessage(-1, "U~R~" + ready.roomID);
+            }
+        }
+        else
+        {
+            System.err.println("You shouldn't be here!");
+        }
+    }
+
+    void SetRequest(int userID, String[] parsedMessage)
+    {
+        if(parsedMessage.length != 4)
+        {
+            System.err.println("Set Request Error.");
+            return;
+        }
+        Client submit = users.get(userID);
+        Game currGame = games.get(submit.roomID);
+        if(currGame.blockSets())
+        {
+            return;
+        }
+        String msg = currGame.CheckSetAndUpdate(userID, parsedMessage[1], parsedMessage[2], parsedMessage[3]);
+        if(msg != null)
+        {
+            messageGame(currGame, msg);
+        }
+        if(currGame.isOver())
+        {
+            endGame(currGame);
+        }
+    }
+
+    void Exit(int userID, String[] parsedMessage)
+    {
+        if(parsedMessage.length != 1)
+        {
+            System.err.println("Exit Request Error.");
+            return;
+        }
+        Client leaving = users.get(userID);
+        if(leaving.roomID == null)
+        {
+            System.err.println("Exit Game Fault.");
+            return;
+        }
+        Game oldGame = games.get(leaving.roomID);
+        if(oldGame == null)
+        {
+            System.err.println("Exit Game Fault.");
+            return;
+        }
+        else
+        {
+            oldGame.remove(userID);
+            if(oldGame.isEmpty())
+            {
+                if(oldGame.isInactive())
+                {
+                    oldGame.setRemoved();
+                    sendMessage(-1, "U~R~" + leaving.roomID);
+                }
+                games.remove(leaving.roomID);
+            }
+            else
+            {
+                messageGame()
+            }
+        }
+
     }
 }
