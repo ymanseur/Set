@@ -8,7 +8,7 @@ package backend;
 public class Set {
 	Card[] cards;
 	
-	Set(Card c1, Card c2, Card c3){
+	public Set(Card c1, Card c2, Card c3){
 		cards[0] = c1;
 		cards[1] = c2;
 		cards[2] = c3;
