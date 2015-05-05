@@ -81,7 +81,7 @@ public class Board{
 		for(int i = 0; i < active.size(); i++){
 			Card temp = active.get(i);
 			boardString += temp.toString();
-			boardString += "*";
+			boardString += " ";
 		}
 		boardString = boardString.substring(0, boardString.length()-1);
 		return boardString;
