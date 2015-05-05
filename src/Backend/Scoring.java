@@ -6,7 +6,6 @@ public class Scoring {
 	
 	public Scoring(List<Player> players){
 		this.players = players;
-		
 		// initialize scores of all players to zero
 		resetScores();
 	}
@@ -27,13 +26,12 @@ public class Scoring {
 		}
 	}
 	
-	
 	public void resetScores(){
 		for (int i = 0; i < this.players.size(); i++)
 			this.players.get(i).resetScore();
 	}
 
-	public String toString(){
+	@Override public String toString(){
 		String text = "";
 		for(int i=0; i<players.size(); i++)
 			text += players.get(i).toString();
