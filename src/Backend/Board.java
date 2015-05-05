@@ -75,5 +75,16 @@ public class Board{
 				return i;
 		return -1;
 	}
+	
+	@Override public String toString(){
+		String boardString = "";
+		for(int i = 0; i < active.size(); i++){
+			Card temp = active.get(i);
+			boardString += temp.toString();
+			boardString += " ";
+		}
+		boardString = boardString.substring(0, boardString.length()-1);
+		return boardString;
+	}
 }
 

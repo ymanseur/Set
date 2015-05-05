@@ -31,8 +31,8 @@ public class Player {
 		score = 0;
 	}
 	
-	public String toString(){
-		return (id + "_" + score + " ");
+	@Override public String toString(){
+		return (id + "_" + score + "_");
 	}
 	
 }

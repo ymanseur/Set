@@ -84,8 +84,7 @@ public class Card {
     	}
     }
     
-    @Override
-    public boolean equals(Object tmp){
+    @Override public boolean equals(Object tmp){
     	Card temp = (Card) tmp;
     	return (color==temp.getColor() 
     			&& pattern==temp.getPattern() 
@@ -93,8 +92,8 @@ public class Card {
     			&& count==temp.getCount());	
     }
     
-    public String toString(){
-    	return(this.getColorAsString() + " " + this.getCountAsString() + " " + this.getPatternAsString() + " " + this.getShapeAsString() + "\n");
+    @Override public String toString(){
+    	return (this.getColor() + "_" + this.getPattern() + "_" + this.getShape() + "_" + this.getCount());
     }
     
 }
