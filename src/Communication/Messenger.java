@@ -29,7 +29,7 @@ public abstract class Messenger {
         throw new UnsupportedOperationException("Lost in Abstract Messenger Class");
     }
 
-    public void disconnect()
+    public void disconnect(int userID)
     {
         throw new UnsupportedOperationException("Lost in Abstract Messenger Class");
     }
