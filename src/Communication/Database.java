@@ -5,7 +5,7 @@ import java.sql.*;
 /**
  * @author MSmarsch
  */
-public class Sql {
+public class Database {
 
     static final String URL = "jdbc:mysql://199.98.20.122/set";
     static final String DRIVER = "com.mysql.jdbc.Driver";

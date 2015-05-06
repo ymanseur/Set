@@ -16,7 +16,7 @@ public class ServerMessenger extends Messenger {
     final Map<Integer, Client> users;
     final Map<Integer, Game> games;
     int numRooms;
-    Sql db;
+    Database db;
 
     public ServerMessenger() {
         super();
@@ -24,7 +24,7 @@ public class ServerMessenger extends Messenger {
         users = new HashMap<>();
         games = new HashMap<>();
         numRooms = 0;
-        db = new Sql();
+        db = new Database();
     }
 
     @Override
