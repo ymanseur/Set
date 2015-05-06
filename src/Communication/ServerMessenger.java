@@ -364,7 +364,7 @@ public class ServerMessenger extends Messenger {
         {
             return;
         }
-        String msg = currGame.CheckSetAndUpdate(userID, parsedMessage[1], parsedMessage[2], parsedMessage[3]);
+        String msg = currGame.playerEnterSet(userID, parsedMessage[1], parsedMessage[2], parsedMessage[3]);
         if(msg != null)
         {
             messageGame(currGame, msg);

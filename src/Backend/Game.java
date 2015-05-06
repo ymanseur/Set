@@ -5,6 +5,7 @@ import java.util.*;
 /**
  * 
  * @author Yacine
+ * @author MSmarsch
  *
  */
 
@@ -218,6 +219,4 @@ public class Game {
 				players.remove(i);
 		}
 	}
-	
-	
 }
