@@ -122,25 +122,30 @@ public class ServerMessenger extends Messenger {
     void Register(int userID, String[] parsedMessage) {
         String username = parsedMessage[1];
         String password = parsedMessage[2];
-        if (parsedMessage.length != 3) {
+        if (parsedMessage.length != 3)
+        {
             System.err.println("Invalid message.");
             sendMessage(userID, "X~<html><p><center>Invalid Username or Password!<br>" + "Cannot contain '~'<br></center></p></html>");
             return;
         }
 
-        if (username.contains(" ") || username.contains("_")) {
+        if (username.contains(" ") || username.contains("_"))
+        {
             System.err.println("Invalid Registration Attempt.");
             sendMessage(userID, "X~<html><p><center>Invalid Username!<br>" + "Cannot contain ' ' or '_'<br></center></p></html>");
             return;
         }
 
-        if (db.addUser(username, password)) {
-            Client user = db.getUser(username);
+        if (db.addPlayer(username, password))
+        {
+            Client user = db.getPlayer(username);
             System.out.println("'" + username + "' has been added to the database.");
             users.put(userID, user);
             sendMessage(-1, "P~A~" + username);
             updateInfo(userID);
-        } else {
+        }
+        else
+        {
             sendMessage(userID, "X~Username taken!");
             System.out.println("Username taken!");
         }
@@ -148,18 +153,21 @@ public class ServerMessenger extends Messenger {
     }
 
     void Login(int userID, String[] parsedMessage) {
-        if (parsedMessage.length != 3) {
+        if (parsedMessage.length != 3)
+        {
             System.err.println("Invalid message.");
             sendMessage(userID, "X~<html><p><center>Invalid Username or Password!<br>" + "Cannot contain '~'<br></center></p></html>");
             return;
         }
         String username = parsedMessage[1];
         String password = parsedMessage[2];
-        Client account = db.getUser(username);
+        Client account = db.getPlayer(username);
         if (account.userID != -1)
         {
-            for (Client online : users.values()) {
-                if (username.equals(online.username)) {
+            for (Client online : users.values())
+            {
+                if (username.equals(online.username))
+                {
                     sendMessage(userID, "X~<html><p><center>User already logged in!</center></p></html>");
                     return;
                 }
@@ -183,7 +191,8 @@ public class ServerMessenger extends Messenger {
 
     void Disconnect(int userID, String[] parsedMessage)
     {
-        if (parsedMessage.length != 1) {
+        if (parsedMessage.length != 1)
+        {
             System.err.println("Invalid message.");
             return;
         }
@@ -209,7 +218,7 @@ public class ServerMessenger extends Messenger {
 
                         if(curr.isActive())
                         {
-                            if(!db.updateUser(disconnect))
+                            if(!db.updatePlayer(disconnect))
                             {
                                 System.err.println("User could not be found.");
                             }
@@ -263,14 +272,15 @@ public class ServerMessenger extends Messenger {
         Game newGame = new Game(parsedMessage[1], Integer.parseInt(parsedMessage[2]));
         newGame.addPlayer(userID, creator.username);
         sendMessage(userID, newGame.getPlayerNames());
-        sendMessage(-1, "U~A~" + numRooms + "~" + parsedMessage[1] + "~" + newGame.numPlayers() + "~" + newGame.getMaxNumPlayers() + "~Inactive");
+        sendMessage(-1, "U~A~" + numRooms + "~" + parsedMessage[1] + "~" + newGame.getNumPlayers() + "~" + newGame.getMaxPlayers() + "~Inactive");
         sendMessage(-1, "C~" + creator.username + " created a new game! Name: " + parsedMessage[1] + " ID: " + numRooms);
         ++numRooms;
     }
 
     void Join(int userID, String[] parsedMessage)
     {
-        if (parsedMessage.length != 2) {
+        if (parsedMessage.length != 2)
+        {
             System.err.println("Join Game Error!");
             return;
         }
@@ -400,14 +410,14 @@ public class ServerMessenger extends Messenger {
             else
             {
                 messageGame(oldGame, "T~" + leaving.username + " left the game.");
-                messageGame(oldGame, oldGame.getPlayerNames();
+                messageGame(oldGame, oldGame.getPlayerNames());
                 if(oldGame.isInactive())
                 {
                     sendMessage(-1, "U~Y~" + leaving.roomID);
                 }
                 if(oldGame.isActive())
                 {
-                    if(!db.Update(leaving))
+                    if(!db.updatePlayer(leaving))
                     {
                         System.err.println("User could not be located.");
                     }
@@ -436,7 +446,8 @@ public class ServerMessenger extends Messenger {
 
     void GameChat(int userID, String[] parsedMessage)
     {
-        if (parsedMessage.length != 2) {
+        if (parsedMessage.length != 2)
+        {
             System.err.println("Game Chat Request Error.");
             return;
         }
@@ -517,7 +528,7 @@ public class ServerMessenger extends Messenger {
                 {
                     state = "Inactive";
                 }
-                sendMessage(userID, "U~A~" + gameID + "~" + game.getName() + "~" + game.numPlayers() + "~" + game.getMaxNumPlayers() + "~" + state);
+                sendMessage(userID, "U~A~" + gameID + "~" + game.getRoomName() + "~" + game.getNumPlayers() + "~" + game.getMaxPlayers() + "~" + state);
             }
         }
     }
