@@ -480,36 +480,5 @@ public class GameClass extends JPanel{
 		}
 		JScrollBar vertical = chatScroll.getVerticalScrollBar();
 		vertical.setValue(vertical.getMaximum());
-		}
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
+}
