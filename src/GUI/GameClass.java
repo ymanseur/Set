@@ -223,7 +223,7 @@ public class GameClass extends JPanel{
 			errorLabel.setVisible(false);
 			if(!GameEnd)
 			{
-				if((playStatus == false) && (messageInput.isFocusOwner()==false))
+				if((!playStatus) && (!messageInput.isFocusOwner()))
 				{
 					playStatus = true;
 					System.out.println("Begin!");
@@ -232,7 +232,7 @@ public class GameClass extends JPanel{
 				}
 			else
 			{
-				if((cardSelection.size()!=3)||(messageInput.isFocusOwner()==true))
+				if((cardSelection.size()!=3)||(messageInput.isFocusOwner()))
 				{
 					System.out.println("Invalid sub!");
 				}

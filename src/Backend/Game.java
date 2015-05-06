@@ -15,6 +15,8 @@ public class Game {
 	String name;
 	final int maxPlayers;
 	Board board;
+    boolean isDeleted;
+    boolean isBlocking;
 	Scoring scoring;
 	int gameState; //-1 inactive, 0 active, 1 finished
 	
@@ -80,6 +82,35 @@ public class Game {
                 winners.add(p.getId());
             }
         }
+    }
+
+    public boolean isEmpty()
+    {
+        if(players.size() == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void setDeleted()
+    {
+        isDeleted = true;
+    }
+
+    public boolean isDeleted()
+    {
+        return isDeleted;
+    }
+
+    public void setBlocking()
+    {
+        isBlocking = true;
+    }
+
+    public boolean isBlocking()
+    {
+        return isBlocking;
     }
 
     public boolean isInactive()

@@ -338,10 +338,10 @@ public class ServerMessenger extends Messenger {
             messageGame(currGame, "T~" + ready.username + "is ready to play!");
             if(currGame.getNumPlayers() == currGame.getNumReady())
             {
-                currGame.startPlaying();
+                currGame.setActive();
                 messageGame(currGame, "T~Beginning Game...");
                 messageGame(currGame, currGame.initializeGame());
-                currGame.setRemoved();
+                currGame.setDeleted();
                 sendMessage(-1, "U~R~" + ready.roomID);
             }
         }
@@ -360,7 +360,7 @@ public class ServerMessenger extends Messenger {
         }
         Client submit = users.get(userID);
         Game currGame = games.get(submit.roomID);
-        if(currGame.isBlockSets())
+        if(currGame.isBlocking())
         {
             return;
         }
@@ -369,7 +369,7 @@ public class ServerMessenger extends Messenger {
         {
             messageGame(currGame, msg);
         }
-        if(currGame.isOver())
+        if(currGame.isCompleted())
         {
             endGame(currGame);
         }
@@ -402,7 +402,7 @@ public class ServerMessenger extends Messenger {
             {
                 if(oldGame.isInactive())
                 {
-                    oldGame.setRemoved();
+                    oldGame.setDeleted();
                     sendMessage(-1, "U~R~" + leaving.roomID);
                 }
                 games.remove(leaving.roomID);
@@ -480,7 +480,7 @@ public class ServerMessenger extends Messenger {
     {
         String victors = "";
         System.out.println("Ending the Current Game.");
-        if(!currGame.isOver())
+        if(!currGame.isCompleted())
         {
             System.err.println("Shouldn't Be Here!");
         }
@@ -498,7 +498,7 @@ public class ServerMessenger extends Messenger {
         messageGame(currGame, "T~" + victors);
         messageGame(currGame, "T~Game Over. Please return to lobby.");
         System.out.println("Game Over.");
-        currGame.blockSets();
+        currGame.setBlocking();
     }
 
     void updateInfo(int userID)
@@ -518,7 +518,7 @@ public class ServerMessenger extends Messenger {
         for(Integer gameID : gameIDs)
         {
             game = games.get(gameID);
-            if(!game.isRemoved())
+            if(!game.isDeleted())
             {
                 if(game.isActive())
                 {
