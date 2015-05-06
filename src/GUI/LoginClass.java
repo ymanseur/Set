@@ -84,7 +84,7 @@ public class LoginClass extends JFrame implements ActionListener {
 	public String playerUsername;
 	
 	//Client Object
-	private playerProtocol callObject;
+	private ClientMessenger callObject;
 	
 	//components of the different panels in login frame textfield(s), label(s), and button(s)
 	
@@ -112,7 +112,7 @@ public class LoginClass extends JFrame implements ActionListener {
 	private boolean loggedIn;
 	
 	//LoginClass method
-	public LoginClass(playerProtocol callObject){
+	public LoginClass(ClientMessenger callObject){
 		this.callObject = callObject;
 		
 		//actually create the mainPanel that will have all the other panels

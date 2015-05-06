@@ -183,7 +183,7 @@ public class ServerMessenger extends Messenger {
 
     void Disconnect(int userID, String[] parsedMessage)
     {
-        if (messagePieces.length != 1) {
+        if (parsedMessage.length != 1) {
             System.err.println("Invalid message.");
             return;
         }
@@ -197,26 +197,25 @@ public class ServerMessenger extends Messenger {
                 Game curr = games.get(disconnect.roomID);
                 if(curr != null)
                 {
-                    curr.remove(userID);
+                    curr.removePlayer(userID);
                     if(curr.isInactive())
                     {
                         sendMessage(-1, "U~Y~" + disconnect.roomID);
                     }
-                    if(curr.numPlayers() > 0)
+                    if(curr.getNumPlayers() > 0)
                     {
                         messageGame(curr, "T~" + disconnect.username + " disconnected");
-                        messageGame(curr, curr.NamesToString());
+                        messageGame(curr, curr.getPlayerNames());
 
-                        if(curr.isPlaying())
+                        if(curr.isActive())
                         {
-                            disconnect.rating -= 10;
                             if(!db.updateUser(disconnect))
                             {
                                 System.err.println("User could not be found.");
                             }
-                            if(curr.numPlayers() == 1)
+                            if(curr.getNumPlayers() == 1)
                             {
-                                curr.Completed();
+                                curr.isCompleted();
                                 endGame(curr);
                             }
                         }
@@ -231,7 +230,7 @@ public class ServerMessenger extends Messenger {
                     {
                         if(curr.isInactive())
                         {
-                            curr.Remove();
+                            curr.removePlayer(userID);
                             sendMessage(-1, "U~R~" + disconnect.roomID);
                         }
                         games.remove(disconnect.roomID);
@@ -262,8 +261,8 @@ public class ServerMessenger extends Messenger {
         }
         creator.roomID = numRooms;
         Game newGame = new Game(parsedMessage[1], Integer.parseInt(parsedMessage[2]));
-        newGame.add(userID, creator.username);
-        sendMessage(userID, newGame.NamesToString());
+        newGame.addPlayer(userID, creator.username);
+        sendMessage(userID, newGame.getPlayerNames());
         sendMessage(-1, "U~A~" + numRooms + "~" + parsedMessage[1] + "~" + newGame.numPlayers() + "~" + newGame.getMaxNumPlayers() + "~Inactive");
         sendMessage(-1, "C~" + creator.username + " created a new game! Name: " + parsedMessage[1] + " ID: " + numRooms);
         ++numRooms;
@@ -271,7 +270,7 @@ public class ServerMessenger extends Messenger {
 
     void Join(int userID, String[] parsedMessage)
     {
-        if (messagePieces.length != 2) {
+        if (parsedMessage.length != 2) {
             System.err.println("Join Game Error!");
             return;
         }
@@ -290,19 +289,19 @@ public class ServerMessenger extends Messenger {
         }
         else
         {
-            if(joinedRoom.getNumPlayers() < joinedRoom.getMaxNumPlayers())
+            if(joinedRoom.getNumPlayers() < joinedRoom.getMaxPlayers())
             {
-                if(joinedRoom.isPlaying())
+                if(joinedRoom.isActive())
                 {
                     join.roomID = -1;
                     sendMessage(userID, "J~I");
                 }
                 else
                 {
-                    joinedRoom.add(userID, join.username);
+                    joinedRoom.addPlayer(userID, join.username);
                     sendMessage(userID, "J~J");
-                    messageGame(joinedRoom, joinedRoom.NamesToString());
-                    sendMessage(-1, "C~" + join.username + " joined " + joinedRoom.getName() + " with ID " + parsedMessage[1]);
+                    messageGame(joinedRoom, joinedRoom.getPlayerNames());
+                    sendMessage(-1, "C~" + join.username + " joined " + joinedRoom.getRoomName() + " with ID " + parsedMessage[1]);
                     sendMessage(-1, "U~X~" + join.roomID);
                     messageGame(joinedRoom, "T~" + join.username + " joined.");
                 }
@@ -351,7 +350,7 @@ public class ServerMessenger extends Messenger {
         }
         Client submit = users.get(userID);
         Game currGame = games.get(submit.roomID);
-        if(currGame.blockSets())
+        if(currGame.isBlockSets())
         {
             return;
         }
@@ -374,12 +373,13 @@ public class ServerMessenger extends Messenger {
             return;
         }
         Client leaving = users.get(userID);
-        if(leaving.roomID == null)
+        if(leaving.roomID < 0)
         {
             System.err.println("Exit Game Fault.");
             return;
         }
         Game oldGame = games.get(leaving.roomID);
+        sendMessage(userID, "E");
         if(oldGame == null)
         {
             System.err.println("Exit Game Fault.");
@@ -387,7 +387,7 @@ public class ServerMessenger extends Messenger {
         }
         else
         {
-            oldGame.remove(userID);
+            oldGame.removePlayer(userID);
             if(oldGame.isEmpty())
             {
                 if(oldGame.isInactive())
@@ -400,20 +400,19 @@ public class ServerMessenger extends Messenger {
             else
             {
                 messageGame(oldGame, "T~" + leaving.username + " left the game.");
-                messageGame(oldGame, oldGame.NamesToString());
+                messageGame(oldGame, oldGame.getPlayerNames();
                 if(oldGame.isInactive())
                 {
                     sendMessage(-1, "U~Y~" + leaving.roomID);
                 }
-                if(oldGame.isPlaying())
+                if(oldGame.isActive())
                 {
-                    leaving.rating -= 10;
                     if(!db.Update(leaving))
                     {
                         System.err.println("User could not be located.");
                     }
 
-                    if(oldGame.NumPlayers() == 1)
+                    if(oldGame.getNumPlayers() == 1)
                     {
                         oldGame.setCompleted();
                         endGame(oldGame);
@@ -453,16 +452,73 @@ public class ServerMessenger extends Messenger {
             System.err.println("Game Message Request Error.");
         }
         Client sender = users.get(userID);
-        Game currGame = sender.roomID;
+        Game currGame = games.get(sender.roomID);
         messageGame(currGame, "T~" + parsedMessage[1]);
     }
 
     void messageGame(Game currGame, String message)
     {
-        List<Integer> ids = currGame.playerIDs();
+        List<Integer> ids = currGame.getPlayerIds();
         for(Integer id : ids)
         {
             sendMessage(id, message);
+        }
+    }
+
+    void endGame(Game currGame)
+    {
+        String victors = "";
+        System.out.println("Ending the Current Game.");
+        if(!currGame.isOver())
+        {
+            System.err.println("Shouldn't Be Here!");
+        }
+        List<Integer> winners = new ArrayList<>();
+        currGame.getWinner(winners);
+        for(int i = 0; i < winners.size(); i++)
+        {
+            if(i > 0)
+            {
+                victors += " and ";
+            }
+            victors += users.get(winners.get(i));
+        }
+        victors += " won!";
+        messageGame(currGame, "T~" + victors);
+        messageGame(currGame, "T~Game Over. Please return to lobby.");
+        System.out.println("Game Over.");
+        currGame.blockSets();
+    }
+
+    void updateInfo(int userID)
+    {
+        Game game = null;
+        String state;
+        Collection<Client> clients = users.values();
+        String username = users.get(userID).username;
+        for(Client c : clients)
+        {
+            if(username != c.username)
+            {
+                sendMessage(userID, "P~A~" + c.username);
+            }
+        }
+        Set<Integer> gameIDs = games.keySet();
+        for(Integer gameID : gameIDs)
+        {
+            game = games.get(gameID);
+            if(!game.isRemoved())
+            {
+                if(game.isActive())
+                {
+                    state = "Active";
+                }
+                else
+                {
+                    state = "Inactive";
+                }
+                sendMessage(userID, "U~A~" + gameID + "~" + game.getName() + "~" + game.numPlayers() + "~" + game.getMaxNumPlayers() + "~" + state);
+            }
         }
     }
 }

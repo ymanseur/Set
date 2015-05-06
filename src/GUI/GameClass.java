@@ -57,7 +57,7 @@ public class GameClass extends JPanel{
 	private String username;
 	private JButton exitCurrentGame;
 	private JButton setcardSubmitButton;
-	private playerProtocol callObject;
+	private ClientMessenger callObject;
 	boolean playStatus = false; //Consider by default the game to be off | false = game off
 	boolean GameEnd; //Set boolean variable to consider when the game is over
 	boolean submit_True;
@@ -80,7 +80,7 @@ public class GameClass extends JPanel{
 	}
 	
 	//Call ref for game
-	public void setGameClient(playerProtocol callObject, String username)
+	public void setGameClient(ClientMessenger callObject, String username)
 	{
 		this.callObject = callObject;
 		this.username = username;
@@ -330,7 +330,7 @@ public class GameClass extends JPanel{
 		cards.clear();
 		cardPane.removeAll();
 		playStatus = false;
-		chatLog.setText();
+		chatHistory.setText("");
 		messageInput.setText("");
 		chatHistory.setText("");
 		setcardSubmitButton.setText("Ready to Play!");
@@ -439,7 +439,7 @@ public class GameClass extends JPanel{
 							else if(serverString[1].charAt(0) == 'N')
 							{
 								System.out.println("Taking 1 point from " + username);
-								callObject.sendMessagesToServer("M~" + username + " got 1 point...TAKEN AWAY!");
+								callObject.sendMessageToServer("M~" + username + " got 1 point...TAKEN AWAY!");
 								cardSelection.clear();
 								selectedCards.clear();
 								for(JToggleButton key : cards.keySet())
@@ -457,7 +457,7 @@ public class GameClass extends JPanel{
 					gameScoreboard[i][1] = score;
 					System.out.println(userNames[i] + " " + userScores[i]);
 				}
-			left.updateUI();
+			west.updateUI();
 			}
 			break;
 		}
@@ -473,10 +473,10 @@ public class GameClass extends JPanel{
 	//updates and displays messages sent to server from chat
 	public void updateChat(String username, String message){
 		if(username.equals("")){
-			chatLog.append(message + "\n");
+			chatHistory.append(message + "\n");
 		}
 		else{
-			chatLog.append(username + ": " + message + "\n");
+			chatHistory.append(username + ": " + message + "\n");
 		}
 		JScrollBar vertical = chatScroll.getVerticalScrollBar();
 		vertical.setValue(vertical.getMaximum());

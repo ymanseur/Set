@@ -74,7 +74,7 @@ public class LobbyClass extends JPanel {
 	private JButton logout;
 	
 	//Client object
-	private playerProtocol callObject;
+	private ClientMessenger callObject;
 	
 	//components of lobby chat section
 	private JLabel chatTitle; 
@@ -136,13 +136,13 @@ public class LobbyClass extends JPanel {
 	};
 	
 	//LobbyClass method
-	public LobbyClass(Login loginFrame){
+	public LobbyClass(LoginClass loginFrame){
 		this.loginFrame = loginFrame;
 	}
 	
 	//Allows users to enter lobby with their usernames
 	//adds user's username to the server's list of active users
-	public void enterNewUser (String username, playerProtocol callObject){
+	public void enterNewUser (String username, ClientMessenger callObject){
 		this.username = username;
 		this.callObject = callObject;
 		//sets welcome label text
@@ -624,9 +624,9 @@ public class LobbyClass extends JPanel {
 		//updates and displays messages sent to server from chat
 		public void updateChat(String username, String message){
 			if(username.equals("")){
-				chatLog.append(message + "\n");
+				chatHistory.append(message + "\n");
 			}else{
-				chatLog.append(username + ": " + message + "\n");
+				chatHistory.append(username + ": " + message + "\n");
 			}
 			JScrollBar vertical = chatScroll.getVerticalScrollBar();
 			vertical.setValue(vertical.getMaximum());
@@ -650,7 +650,7 @@ public class LobbyClass extends JPanel {
 		
 		//clear everything
 		public void clearLobby(){
-			chatLog.setText("");
+			chatHistory.setText("");
 			activeUsers.clear();
 			activeGames.clear();
 			listOfGameRooms.clear();

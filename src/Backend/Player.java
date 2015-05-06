@@ -15,9 +15,13 @@ public class Player {
 		this.id = id;
 		this.score = score;
 	}
-	
+
+    public String getUsername()
+    {
+        return this.username;
+    }
 	public int getId(){
-		return id;
+		return this.id;
 	}
 	public void addScore(){
 		score++;
