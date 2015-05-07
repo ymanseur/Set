@@ -19,7 +19,7 @@ public class MessageRouter {
 
     public MessageRouter(int serverPort, Messenger messenger)
     {
-        this.isActive = messenger.active;
+        this.isActive = messenger.isActive;
         this.messenger = messenger;
         SOCKETS = messenger.SOCKETS;
         inMessages = messenger.inMessages;
@@ -30,7 +30,7 @@ public class MessageRouter {
 
     public MessageRouter(Messenger messenger)
     {
-        this.isActive = messenger.active;
+        this.isActive = messenger.isActive;
         this.messenger = messenger;
         SOCKETS = messenger.SOCKETS;
         inMessages = messenger.inMessages;
