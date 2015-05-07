@@ -122,7 +122,7 @@ public class LoginClass extends JFrame implements ActionListener {
 		gameFrame = new GameClass(this, lobbyFrame);
 		frameLayout = (CardLayout)(mainFrame.getLayout());
 		//player protocol to grabPanels
-		callObject.grabPanels(this, lobbyFrame, gameFrame);
+		callObject.setPanels(this, lobbyFrame, gameFrame);
 		
 		//add the three different windows to da mainPanel
 		mainFrame.add(loginPanel, loginTitle);
@@ -228,11 +228,13 @@ public class LoginClass extends JFrame implements ActionListener {
 		
 		//buttons
 		JPanel buttonPanel = new JPanel();
-		enterLobbyButton = new JButton("Enter");
-		enterLobbyButton.addActionListener(new EnterLobbyAction());
+		enterLobbyButton = new JButton("Login");
+		enterLobbyButton.addActionListener(this);
+        enterLobbyButton.setActionCommand("Login");
+        enterLobbyButton.setAlignmentX(CENTER_ALIGNMENT);
 		registerButton = new JButton("Register");
-		enterLobbyButton.addActionListener(new RegisterAction());
-		enterLobbyButton.setAlignmentX(CENTER_ALIGNMENT);
+		registerButton.addActionListener(this);
+        registerButton.setActionCommand("Register");
 		registerButton.setAlignmentX(CENTER_ALIGNMENT);
 		buttonPanel.add(enterLobbyButton);
 		buttonPanel.add(registerButton);
@@ -261,30 +263,25 @@ public class LoginClass extends JFrame implements ActionListener {
 		south.add(errorLabel);
 		south.setVisible(false);
 	}
-	
-	public class EnterLobbyAction implements ActionListener{
-		public void actionPerformed(ActionEvent event){
-			//send message to server with username & password and 
-			//then clear the contents of the two fields
-			playerUsername = usernameField.getText();
-			char[] playerPassword = passwordField.getPassword();
-			callObject.sendMessageToServer("L~" + playerUsername + "~" + new String(playerPassword));
-			usernameField.setText("");
-			passwordField.setText("");
-			}
-	}
-	
-	public class RegisterAction implements ActionListener{
-		public void actionPerformed(ActionEvent event){
-			//send message to server with username and password registration 
-			//then clear the contents of the two fields
-			playerUsername = usernameField.getText();
-			char[] playerPassword = passwordField.getPassword();
-			callObject.sendMessageToServer("R~" + playerUsername + "~" + new String(playerPassword));
-			usernameField.setText("");
-			passwordField.setText("");
-			}
-	}
+
+	public void actionPerformed(ActionEvent event){
+		//send message to server with username & password and
+		// then clear the contents of the two fields
+		playerUsername = usernameField.getText();
+		char[] playerPassword = passwordField.getPassword();
+        if(event.getActionCommand().equals("Login")) {
+            callObject.messageServer("L~" + playerUsername + "~" + new String(playerPassword));
+        }
+
+		//send message to server with username and password registration
+		//then clear the contents of the two fields
+		else if(event.getActionCommand().equals("Register"))
+        {
+            callObject.messageServer("R~" + playerUsername + "~" + new String(playerPassword));
+        }
+        usernameField.setText("");
+		passwordField.setText("");
+    }
 	
 	//method for setting what error text is and letting it be visible
 	public void displayError(String errorString){
@@ -330,7 +327,7 @@ public class LoginClass extends JFrame implements ActionListener {
 	public void logout(){
 		loggedIn = false;
 		//disconnect from server
-		callObject.sendMessageToServer("D");
+		callObject.messageServer("D");
 		
 		//clear lobby frame
 		lobbyFrame.clearLobby();
@@ -350,6 +347,4 @@ public class LoginClass extends JFrame implements ActionListener {
 		dispose();
 		System.exit(0);
 	}
-	
-	
 }

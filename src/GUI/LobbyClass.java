@@ -392,7 +392,7 @@ public class LobbyClass extends JPanel {
 				roomID = Integer.parseInt(gameInfoSplit[0].substring(0, gameInfoSplit[0].length()-1));
 				
 				//send info to server that user wants to join game with specified roomID
-				callObject.sendMessageToServer("J~"+roomID);
+				callObject.messageServer("J~"+roomID);
 				}
 		}
 		
@@ -440,7 +440,7 @@ public class LobbyClass extends JPanel {
 				} while(retry);
 				//if there are no errors and the player doesn't want to cancel game creation, then send server info to create a new game
 				if(!cancelCreate){
-					callObject.sendMessageToServer("N~"+nameOfRoomField.getText()+"~"+numberOfPlayersField.getText());
+					callObject.messageServer("N~"+nameOfRoomField.getText()+"~"+numberOfPlayersField.getText());
 					loginFrame.enterGame();
 				}
 				//clear text fields
@@ -464,7 +464,7 @@ public class LobbyClass extends JPanel {
 					String userMessage = messageInput.getText();
 					if(!userMessage.equals("")){
 						messageInput.setText("");
-						callObject.sendMessageToServer("C~"+userMessage);
+						callObject.messageServer("C~"+userMessage);
 					}
 				}
 				else {}; //chillout bro
