@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="989b2ae0-3b54-46e3-bb5d-6350ccfb6a19" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Communication/MessageRouter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/Communication/ThreadEstablisher.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Communication/Messenger.java" afterPath="$PROJECT_DIR$/src/Communication/Messenger.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Communication/ServerMessenger.java" afterPath="$PROJECT_DIR$/src/Communication/ServerMessenger.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Communication/SetThread.java" afterPath="$PROJECT_DIR$/src/Communication/SetThread.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Communication/ThreadMessenger.java" afterPath="$PROJECT_DIR$/src/Communication/ThreadMessenger.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Communication/Server.java" afterPath="$PROJECT_DIR$/src/Communication/Server.java" />
     </list>
     <ignored path="Set.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -78,14 +72,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Server.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Server.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Communication/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="600">
-              <caret line="29" column="9" selection-start-line="29" selection-start-column="9" selection-end-line="29" selection-end-column="9" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.30499077" vertical-offset="0" max-vertical-offset="541">
+              <caret line="11" column="15" selection-start-line="11" selection-start-column="15" selection-end-line="11" selection-end-column="15" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -136,14 +128,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ThreadEstablisher.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ThreadEstablisher.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Communication/ThreadEstablisher.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.9131238" vertical-offset="0" max-vertical-offset="1230">
-              <caret line="69" column="13" selection-start-line="69" selection-start-column="13" selection-end-line="69" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="584" max-vertical-offset="1230">
+              <caret line="3" column="26" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -167,7 +157,6 @@
         <option value="$PROJECT_DIR$/src/Backend/Board.java" />
         <option value="$PROJECT_DIR$/src/Communication/ClientMessenger.java" />
         <option value="$PROJECT_DIR$/src/GUI/ClientMessenger.java" />
-        <option value="$PROJECT_DIR$/src/Communication/Server.java" />
         <option value="$PROJECT_DIR$/src/GUI/LoginClass.java" />
         <option value="$PROJECT_DIR$/src/GUI/LobbyClass.java" />
         <option value="$PROJECT_DIR$/src/Communication/Client.java" />
@@ -183,6 +172,7 @@
         <option value="$PROJECT_DIR$/src/Communication/ServerMessenger.java" />
         <option value="$PROJECT_DIR$/src/Communication/Messenger.java" />
         <option value="$PROJECT_DIR$/src/Communication/ThreadEstablisher.java" />
+        <option value="$PROJECT_DIR$/src/Communication/Server.java" />
       </list>
     </option>
   </component>
@@ -958,16 +948,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Communication/Server.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
-          <caret line="29" column="9" selection-start-line="29" selection-start-column="9" selection-end-line="29" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Communication/Database.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2340">
@@ -1026,11 +1006,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Communication/ThreadEstablisher.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.9131238" vertical-offset="0" max-vertical-offset="1230">
-          <caret line="69" column="13" selection-start-line="69" selection-start-column="13" selection-end-line="69" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="584" max-vertical-offset="1230">
+          <caret line="3" column="26" selection-start-line="3" selection-start-column="26" selection-end-line="3" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Communication/Server.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.30499077" vertical-offset="0" max-vertical-offset="541">
+          <caret line="11" column="15" selection-start-line="11" selection-start-column="15" selection-end-line="11" selection-end-column="15" />
+          <folding />
         </state>
       </provider>
     </entry>
