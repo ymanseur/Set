@@ -102,7 +102,7 @@ public class LoginClass extends JFrame implements ActionListener {
 	private JPanel passwordPanel;
 	
 	//need to create error labels
-	private JLabel errorLabel;
+	private JLabel errorLabel = new JLabel();
 	
 	//enter lobby
 	private JButton enterLobbyButton;

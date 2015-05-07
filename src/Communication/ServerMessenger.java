@@ -195,6 +195,22 @@ public class ServerMessenger extends Messenger {
         }
     }
 
+    public void disconnect(int userID)
+    {
+        try
+        {
+            inMessages.put(new Message (userID, "D"));
+        }
+        catch(InterruptedException e)
+        {
+            System.err.println(e.getMessage());
+        }
+    }
+
+    public void connect()
+    {
+    }
+
     void Disconnect(int userID, String[] parsedMessage)
     {
         if (parsedMessage.length != 1)
