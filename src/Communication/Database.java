@@ -7,7 +7,7 @@ import java.sql.*;
  */
 public class Database {
 
-    static final String URL = "jdbc:mysql://199.98.20.122/set";
+    static final String URL = "jdbc:mysql://199.98.20.122/SetGame";
     static final String DRIVER = "com.mysql.jdbc.Driver";
     static final String Username = "root";
     static final String Password = "software";
@@ -80,7 +80,7 @@ public class Database {
         }
         catch(SQLException | ClassNotFoundException e)
         {
-            System.err.println(e.getMessage());
+            System.err.println(e);
             return false;
         }
         return true;

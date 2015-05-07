@@ -10,7 +10,7 @@ public class SetClient {
     public static void main(String[] args)
     {
         int serverPort = 5801;
-        String serverIP = "127.0.0.1";
+        String serverIP = "199.98.20.122";
         ClientMessenger clientMessenger = new ClientMessenger(serverIP, serverPort);
         MessageRouter messageRouter = new MessageRouter(clientMessenger);
         messageRouter.run();

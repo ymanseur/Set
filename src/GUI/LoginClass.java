@@ -157,7 +157,7 @@ public class LoginClass extends JFrame implements ActionListener {
 		
 		//add the mainFrame & set initial size (loginsize)
 		add(mainFrame);
-		setSize(500,500);
+		setSize(500,200);
 		setLocationRelativeTo(null);
 		
 		//define close operations & event
