@@ -11,14 +11,14 @@ import java.util.concurrent.BlockingQueue;
  * @author MSmarsch
  */
 public abstract class Messenger {
-    public boolean active;
+    public boolean isActive;
     public ConcurrentMap<Integer, Socket> SOCKETS;
     public BlockingQueue<Message> inMessages;
     public BlockingQueue<Message> outMessages;
 
     public Messenger()
     {
-        active = true;
+        isActive = true;
         SOCKETS = new ConcurrentHashMap<>();
         inMessages = new LinkedBlockingQueue<>();
         outMessages = new LinkedBlockingQueue<>();

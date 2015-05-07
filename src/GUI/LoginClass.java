@@ -109,7 +109,7 @@ public class LoginClass extends JFrame implements ActionListener {
 	private JButton registerButton;
 	
 	//boolean to check if succesfully logged in
-	private boolean loggedIn;
+	public boolean isLoggedIn;
 	
 	//LoginClass method
 	public LoginClass(ClientMessenger callObject){
@@ -133,7 +133,7 @@ public class LoginClass extends JFrame implements ActionListener {
 		frameLayout.show(mainFrame, loginTitle);
 		
 		//intialize login boolean
-		loggedIn = false;
+		isLoggedIn = false;
 		
 		//call loginGUICreation()
 		totalGUICreation();
@@ -291,7 +291,7 @@ public class LoginClass extends JFrame implements ActionListener {
 	
 	//third level -> second level
 	public void login(String username){
-		loggedIn = true;
+		isLoggedIn = true;
 		playerUsername = username;
 		
 		//enters the new user aka saying welcome and setting up the default button
@@ -325,7 +325,7 @@ public class LoginClass extends JFrame implements ActionListener {
 	//method for logging out (aka going from Lobby to Login)
 	//logout changes dimension from Lobby to Login and sets everything back to Login style
 	public void logout(){
-		loggedIn = false;
+		isLoggedIn = false;
 		//disconnect from server
 		callObject.messageServer("D");
 		

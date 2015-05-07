@@ -20,7 +20,7 @@ public class ServerMessenger extends Messenger {
 
     public ServerMessenger() {
         super();
-        active = true;
+        isActive = true;
         users = new HashMap<>();
         games = new HashMap<>();
         numRooms = 0;
