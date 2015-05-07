@@ -44,6 +44,11 @@ public abstract class Messenger {
         }
     }
 
+    public boolean processEstablishMessage(int numConnections, BufferedReader inStream, Socket clientSocket)
+    {
+        throw new UnsupportedOperationException("Lost in Abstract Messenger Class");
+    }
+
     public void processMessage(Message message)
     {
         throw new UnsupportedOperationException("Lost in Abstract Messenger Class");

@@ -13,18 +13,18 @@ public class SetThread extends Thread{
     boolean isActive;
     final int id;
     final BlockingQueue<Message> inMessages;
-    final ConcurrentMap<Integer, Socket> sockets;
+    final ConcurrentMap<Integer, Socket> SOCKETS;
     Messenger messenger;
     final private BufferedReader inStream;
 
-    public SetThread(int id, boolean isActive, BlockingQueue<Message> inMessages, BufferedReader inStream, ConcurrentMap<Integer, Socket> sockets, Messenger messenger)
+    public SetThread(int id, boolean isActive, BlockingQueue<Message> inMessages, BufferedReader inStream, ConcurrentMap<Integer, Socket> SOCKETS, Messenger messenger)
     {
         super("Connection: " + id);
         this.id = id;
         this.isActive = isActive;
         this.inMessages = inMessages;
         this.inStream = inStream;
-        this.sockets = sockets;
+        this.SOCKETS = SOCKETS;
         this.messenger = messenger;
     }
 
@@ -50,7 +50,7 @@ public class SetThread extends Thread{
                 else
                 {
                     System.out.println("User " + id + " has been disconnected.");
-                    sockets.remove(id);
+                    SOCKETS.remove(id);
                     messenger.disconnect(id);
                     break;
                 }

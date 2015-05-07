@@ -10,23 +10,23 @@ import java.util.concurrent.ConcurrentMap;
  * @author MSmarsch
  */
 public class ThreadMessenger extends Thread {
-    final ConcurrentMap<Integer, Socket> sockets;
+    final ConcurrentMap<Integer, Socket> SOCKETS;
     final BlockingQueue<Message> outMessages;
     DataOutputStream ostream;
     boolean isActive;
 
-    public ThreadMessenger(boolean isActive, ConcurrentMap<Integer, Socket> sockets, BlockingQueue<Message> outMessages)
+    public ThreadMessenger(boolean isActive, ConcurrentMap<Integer, Socket> SOCKETS, BlockingQueue<Message> outMessages)
     {
         this.isActive = isActive;
-        this.sockets = sockets;
+        this.SOCKETS = SOCKETS;
         this.outMessages = outMessages;
     }
 
-    void sendMessage(Socket socket, Message msg)
+    void sendMessage(Socket SOCKET, Message msg)
     {
         try
         {
-            ostream = new DataOutputStream(socket.getOutputStream());
+            ostream = new DataOutputStream(SOCKET.getOutputStream());
             ostream.writeBytes(msg.message + "\n");
         }
         catch(IOException e)
@@ -44,9 +44,9 @@ public class ThreadMessenger extends Thread {
             try
             {
                 Message outMessage = outMessages.take();
-                if(sockets.containsKey(outMessage.userID))
+                if(SOCKETS.containsKey(outMessage.userID))
                 {
-                    sendMessage(sockets.get(outMessage.userID), outMessage);
+                    sendMessage(SOCKETS.get(outMessage.userID), outMessage);
                 }
             }
             catch(InterruptedException e)

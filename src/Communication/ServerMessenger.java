@@ -51,6 +51,12 @@ public class ServerMessenger extends Messenger {
     }
 
     @Override
+    public boolean processEstablishMessage(int numConnections, BufferedReader inStream, Socket clientSocket)
+    {
+        return true;
+    }
+
+    @Override
     public void processMessage(Message message) {
         String msg = message.message;
         int userID = message.userID;
