@@ -8,25 +8,25 @@ import java.util.*;
  */
 
 public class Board{
-	//Deck deck;
-    List<Card> deck;
+	Deck deck;
+    //List<Card> deck;
 	List<Card> active; //current cards on the table
 
 	public Board(){
-		//deck = new Deck();
-        deck = new ArrayList<>();
+		deck = new Deck();
+        //deck.shuffle();
+        //deck = new ArrayList<>();
 		active = new ArrayList<>();
-        initDeck();
+        //initDeck();
 		dealCards(12);
 	}
 
 	// Deals specified number of cards to the board
 	// Returns false if deck doesn't have enough cards left
 	public boolean dealCards(int num){
-		if(deck.size() >= num){
+		if(deck.cardsLeft() >= num){
 			for(int i=0; i<num; i++) {
-                System.out.println(i);
-                active.add(deck.remove(0));
+                active.add(deck.dealCard());
             }
 			return true;
 		}
@@ -82,7 +82,7 @@ public class Board{
 				return i;
 		return -1;
 	}
-
+/*
     public void initDeck(){
         for(int color = 0; color <= 2; color++)
             for(int pattern = 0; pattern <= 2; pattern++)
@@ -90,6 +90,7 @@ public class Board{
                     for(int count = 0; count <= 2; count++)
                         deck.add(new Card(color,pattern,shape,count));
     }
+    */
 	
 	@Override public String toString(){
 		String boardString = "";

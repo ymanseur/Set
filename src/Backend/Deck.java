@@ -8,21 +8,21 @@ import java.util.*;
  */
 public class Deck {
 	public int cardsRemaining;
-    List<Card> deck;
-	//public Card[] deck;
+    //List<Card> deck;
+	public Card[] deck;
 	
 	public Deck(){
 		this.cardsRemaining = 81;
 
-		//deck = new Card[this.cardsRemaining];
+		deck = new Card[this.cardsRemaining];
 		int cardCount = 0; // Number of cards created
 		
 		for(int color = 0; color <= 2; color++){
 			for(int pattern = 0; pattern <= 2; pattern++){
 				for(int shape = 0; shape <= 2; shape++){
 					for(int count = 0; count <= 2; count++){
-                        deck.add(new Card(color,pattern,shape,count));
-						//deck[cardCount] = new Card(color,pattern,shape,count);
+                        //deck.add(new Card(color,pattern,shape,count));
+						deck[cardCount] = new Card(color,pattern,shape,count);
 						cardCount++;
 					}
 				}
@@ -31,11 +31,11 @@ public class Deck {
 	}
 
 	public void shuffle(){
-		for(int i = deck.size()-1; i > 0; i--){
+		for(int i = deck.length-1; i > 0; i--){
 			int rand = (int)(Math.random()*(i+1));
-			Card temp = deck.get(i);
-			//deck.get(i) = deck.get(rand);
-			//deck.get(rand) = temp;
+			Card temp = deck[i];
+			deck[i] = deck[rand];
+			deck[rand] = temp;
 		}
 	}
 	
@@ -45,7 +45,7 @@ public class Deck {
 	
 	public Card dealCard(){
 		this.cardsRemaining--;
-		return deck.get(this.cardsRemaining);
+		return deck[this.cardsRemaining];
 	}
 	
 	public boolean isEmpty(){

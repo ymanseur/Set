@@ -39,6 +39,7 @@ public class GameClass extends JPanel{
     private JPanel south = new JPanel();
     private JPanel center = new JPanel();
     private JPanel readygamebutton;
+    private JPanel submitbutton;
 
     //components for game room chat
     private JLabel chatTitle;
@@ -173,15 +174,14 @@ public class GameClass extends JPanel{
     //Submit options in to the right
     public void makeEast()
     {
-        setcardSubmitButton = new JButton("Ready steady!");
-        setcardSubmitButton.setEnabled(submit_True);
+        setcardSubmitButton = new JButton("Submit!");
         setcardSubmitButton.setAlignmentX(CENTER_ALIGNMENT);
         setcardSubmitButton.addActionListener(new cardsubmit());
         readyButton = new JButton("Ready");
         readyButton.setAlignmentX(CENTER_ALIGNMENT);
         readyButton.addActionListener(new readystart());
 
-        JPanel submitbutton = new JPanel();
+        submitbutton = new JPanel();
         readygamebutton = new JPanel();
         submitbutton.add(setcardSubmitButton);
         submitbutton.add(Box.createRigidArea(new Dimension(40,0)));
@@ -246,43 +246,24 @@ public class GameClass extends JPanel{
     }
 
     //submit a set of cards selected
-    private class cardsubmit implements ActionListener{
-        public void actionPerformed(ActionEvent evt)
-        {
+    private class cardsubmit implements ActionListener {
+        public void actionPerformed(ActionEvent evt) {
             errorLabel.setVisible(false);
-            if(GameEnd == true)
-            {
-                if((!playStatus) && (!messageInput.isFocusOwner()))
-                {
-                    playStatus = true;
-                    System.out.println("Begin!");
-                    setcardSubmitButton.setText("Submit");
-                    setcardSubmitButton.setEnabled(true);
-                    callObject.messageServer("G");
-                }
-                else
-                {
-                    if((cardSelection.size()!=3)||(messageInput.isFocusOwner()))
-                    {
-                        System.out.println("Invalid sub!");
-                    }
-                    else
-                    {
-                        String setSub = "S~";
-                        for(int i=0;i<3;i++)
-                        {
-                            if(i!=2)
-                            {
-                                setSub = setSub + cardSelection.get(i) + "~";
-                            }
-                            else
-                            {
-                                setSub = setSub + cardSelection.get(i);
-                            }
+            if (playStatus) {
+                submitbutton.setEnabled(submit_True);
+                if (cardSelection.size() != 3 || (messageInput.isFocusOwner())) {
+                    System.out.println("Invalid submission");
+                } else {
+                    String setSub = "S~";
+                    for (int i = 0; i < 3; i++) {
+                        if (i != 2) {
+                            setSub = setSub + cardSelection.get(i) + "~";
+                        } else {
+                            setSub = setSub + cardSelection.get(i);
                         }
-                        callObject.messageServer(setSub);
-                        cardSelection.clear();
                     }
+                    callObject.messageServer(setSub);
+                    cardSelection.clear();
                 }
             }
         }
@@ -301,7 +282,7 @@ public class GameClass extends JPanel{
     //game class selector
     public class gameCardSelector implements ItemListener
     {
-        public void statechanged(ItemEvent i)
+        public void itemStateChanged(ItemEvent i)
         {
             errorLabel.setVisible(false);
             JToggleButton selectedCard = (JToggleButton) i.getSource();
@@ -322,13 +303,6 @@ public class GameClass extends JPanel{
                 selectedCards.remove(selectedCard);
                 System.out.println("Un-selected card " + cards.get(selectedCard));
             }
-
-        }
-
-        @Override
-        public void itemStateChanged(ItemEvent arg0) {
-            // TODO Auto-generated method stub
-
         }
     }
 
@@ -362,7 +336,6 @@ public class GameClass extends JPanel{
         playStatus = false;
         chatHistory.setText("");
         messageInput.setText("");
-        chatHistory.setText("");
         setcardSubmitButton.setText("Ready to Play!");
         readygamebutton.setVisible(true);
         //reset the game's scoreboard
@@ -394,7 +367,8 @@ public class GameClass extends JPanel{
                 cardPane.removeAll();
                 messageInput.setText("");
                 playStatus = false;
-                setcardSubmitButton.setText("Ready Steady");
+                setcardSubmitButton.setText("Submit");
+                setcardSubmitButton.setEnabled(submit_True);
 
                 for (int i=0;i<4;i++)
                 {
@@ -407,8 +381,9 @@ public class GameClass extends JPanel{
             default:
                 System.out.println("Board received:");
                 System.out.println(serverString[2]);
+                System.out.println(serverString[0]);
 
-                if(serverString[1].charAt(0) == 'S' || serverString[1].charAt(0) == 'N')
+                if(serverString[1].charAt(0) == 'S' || serverString[1].charAt(0) == 'B')
                 {
                 }
                 else
@@ -430,14 +405,15 @@ public class GameClass extends JPanel{
                     String cardsToShow[] = cardString.split(" ");
                     for(int i=0; i<cardsToShow.length;i++)
                     {
-                        System.out.println("Received" + cardsToShow.length + " cards:");
-                        JToggleButton setCard = new JToggleButton(new ImageIcon("src/cardimages" + cardsToShow[i] + ".gif"));
+                        System.out.println("Received " + cardsToShow.length + " cards:");
+                        JToggleButton setCard = new JToggleButton(new ImageIcon("src/cardimages/" + cardsToShow[i] + ".gif"));
                         setCard.setPreferredSize(new Dimension(100,100));
                         setCard.setBackground(new Color(192,192,192));
                         setCard.addItemListener(new gameCardSelector());
                         cards.put(setCard, cardsToShow[i]);
                         cardPane.add(setCard);
                     }
+                    playStatus = true;
                 }
                 if((serverString[1].charAt(0)=='Y'||(serverString[1].charAt(0)=='N')||serverString[1].charAt(0) == 'S'))
                 {
