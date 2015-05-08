@@ -2,7 +2,7 @@ import java.util.Scanner;
 import Backend.*;
 
 public class Main {
-	
+	/**
 	public static void play(){
 			Deck deck = new Deck();
 			deck.shuffle();
@@ -39,4 +39,5 @@ public class Main {
 		
 		System.out.println("\nThank you for playing!");
 	}
+	*/
 }
