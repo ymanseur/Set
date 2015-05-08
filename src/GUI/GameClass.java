@@ -38,6 +38,7 @@ public class GameClass extends JPanel{
     private JPanel north = new JPanel();
     private JPanel south = new JPanel();
     private JPanel center = new JPanel();
+    private JPanel readygamebutton;
 
     //components for game room chat
     private JLabel chatTitle;
@@ -46,6 +47,7 @@ public class GameClass extends JPanel{
     private JTextArea chatHistory;
     private JScrollPane chatScroll;
     private JButton sendMessage;
+    private JButton readyButton;
 
     //List of users
     private JScrollPane userScroll;
@@ -121,9 +123,9 @@ public class GameClass extends JPanel{
             }
         }
         gameScoretable = new JTable(gameScoreboard,titles);
-        west.setLayout(new BoxLayout(west,BoxLayout.X_AXIS));
+        west.setLayout(new BoxLayout(west,BoxLayout.Y_AXIS));
         west.add(gameScoretable.getTableHeader(), BorderLayout.CENTER);
-        west.add(gameScoretable, BorderLayout.SOUTH);
+        west.add(gameScoretable, BorderLayout.CENTER);
     }
     //Title Page
     public void makeNorth()
@@ -171,24 +173,32 @@ public class GameClass extends JPanel{
     //Submit options in to the right
     public void makeEast()
     {
-        setcardSubmitButton = new JButton("Submit");
+        setcardSubmitButton = new JButton("Ready steady!");
         setcardSubmitButton.setEnabled(submit_True);
         setcardSubmitButton.setAlignmentX(CENTER_ALIGNMENT);
         setcardSubmitButton.addActionListener(new cardsubmit());
+        readyButton = new JButton("Ready");
+        readyButton.setAlignmentX(CENTER_ALIGNMENT);
+        readyButton.addActionListener(new readystart());
 
         JPanel submitbutton = new JPanel();
+        readygamebutton = new JPanel();
         submitbutton.add(setcardSubmitButton);
         submitbutton.add(Box.createRigidArea(new Dimension(40,0)));
         submitbutton.setVisible(true);
+        readygamebutton.add(readyButton);
+        readygamebutton.add(Box.createRigidArea(new Dimension(40,0)));
+        readygamebutton.setVisible(true);
 
         east.setLayout(new BoxLayout(east, BoxLayout.Y_AXIS));
         east.add(submitbutton);
+        east.add(readygamebutton);
         east.add(Box.createRigidArea(new Dimension(40,0)));
     }
     //Chat box in the south end
     public void makeSouth()
     {
-        south.setLayout(new BoxLayout(south,BoxLayout.Y_AXIS));
+        south.setLayout(new BoxLayout(south,BoxLayout.X_AXIS));
         chatTitle = new JLabel(chatroomtitle);
         chatTitle.setAlignmentX(CENTER_ALIGNMENT);
         chatHistory = new JTextArea("",40,10);
@@ -210,26 +220,44 @@ public class GameClass extends JPanel{
     {
         cardPane = new JPanel(new FlowLayout());
         cardPane.setBackground(new Color(0,128,0));
-        cardPane.setPreferredSize(new Dimension(400,800));
+        cardPane.setPreferredSize(new Dimension(400,400));
         cardPane.removeAll();
         center.setLayout(new BoxLayout(center, BoxLayout.X_AXIS));
         center.add(cardPane, BorderLayout.NORTH);
         center.add(Box.createRigidArea(new Dimension(40,0)));
     }
 
+    private class readystart implements ActionListener
+    {
+        public void actionPerformed(ActionEvent event)
+        {
+            errorLabel.setVisible(false);
+            if(playStatus)
+            {
+                readyButton.setEnabled(submit_True);
+
+            }
+            else
+            {
+                readygamebutton.setVisible(false);
+                callObject.messageServer("G");
+            }
+        }
+    }
 
     //submit a set of cards selected
     private class cardsubmit implements ActionListener{
         public void actionPerformed(ActionEvent evt)
         {
             errorLabel.setVisible(false);
-            if(!GameEnd)
+            if(GameEnd == true)
             {
                 if((!playStatus) && (!messageInput.isFocusOwner()))
                 {
                     playStatus = true;
                     System.out.println("Begin!");
                     setcardSubmitButton.setText("Submit");
+                    setcardSubmitButton.setEnabled(true);
                     callObject.messageServer("G");
                 }
                 else
@@ -336,8 +364,9 @@ public class GameClass extends JPanel{
         messageInput.setText("");
         chatHistory.setText("");
         setcardSubmitButton.setText("Ready to Play!");
+        readygamebutton.setVisible(true);
         //reset the game's scoreboard
-        for (int i = 0; i < 4; i++)
+        for (int i = 0+1; i < 4; i++)
             for (int j=0; j < 2 ; j++)
             {
                 gameScoreboard[i][j] = "";
@@ -366,6 +395,7 @@ public class GameClass extends JPanel{
                 messageInput.setText("");
                 playStatus = false;
                 setcardSubmitButton.setText("Ready Steady");
+
                 for (int i=0;i<4;i++)
                 {
                     for (int j=0;j<1;j++)
@@ -434,8 +464,8 @@ public class GameClass extends JPanel{
                                 //got a set
                                 if(serverString[1].charAt(0) == 'Y')
                                 {
-                                    System.out.println("Three points for " + username);
-                                    callObject.messageServer("M~" + username + " got 3 points!");
+                                    System.out.println("One point for " + username);
+                                    callObject.messageServer("M~" + username + " got 1 point1!");
                                 }
                                 //wrong set
                                 else if(serverString[1].charAt(0) == 'N')

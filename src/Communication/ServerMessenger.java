@@ -162,7 +162,7 @@ public class ServerMessenger extends Messenger {
         if (parsedMessage.length != 3)
         {
             System.err.println("Invalid message.");
-            sendMessage(userID, "X~<html><p><center>Invalid Username or Password!<br>" + "Cannot contain '~'<br></center></p></html>");
+            sendMessage(userID, "X~Invalid Username or Password");
             return;
         }
         String username = parsedMessage[1];
@@ -298,6 +298,7 @@ public class ServerMessenger extends Messenger {
         sendMessage(userID, newGame.getPlayerNames());
         sendMessage(-1, "U~A~" + numRooms + "~" + parsedMessage[1] + "~" + newGame.getNumPlayers() + "~" + newGame.getMaxPlayers() + "~Inactive");
         sendMessage(-1, "C~" + creator.username + " created a new game! Name: " + parsedMessage[1] + " ID: " + numRooms);
+        games.put(numRooms, newGame);
         ++numRooms;
     }
 
@@ -360,7 +361,7 @@ public class ServerMessenger extends Messenger {
         if(currGame != null)
         {
             currGame.incNumReady();
-            messageGame(currGame, "T~" + ready.username + "is ready to play!");
+            messageGame(currGame, "T~" + ready.username + " is ready to play!");
             if(currGame.getNumPlayers() == currGame.getNumReady())
             {
                 currGame.setActive();
@@ -466,7 +467,7 @@ public class ServerMessenger extends Messenger {
         }
         Client sender = users.get(userID);
         Game currGame = games.get(sender.roomID);
-        messageGame(currGame, "T~" + sender.username + "~" + parsedMessage[1]);
+        sendMessage(-1, "C~" + sender.username + "~" + parsedMessage[1]);
     }
 
     void GameChat(int userID, String[] parsedMessage)

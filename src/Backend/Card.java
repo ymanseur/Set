@@ -31,6 +31,14 @@ public class Card {
         this.shape = shape;
         this.count = count;
     }
+
+    public Card(Object tmp){
+        Card temp = (Card) tmp;
+        this.color = temp.getColor();
+        this.pattern = temp.getPattern();
+        this.shape = temp.getShape();
+        this.count = temp.getCount();
+    }
     
     public int getColor() {
     	return this.color;

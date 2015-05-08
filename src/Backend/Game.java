@@ -36,7 +36,8 @@ public class Game {
 		board.refillBoard();
 		scoring = new Scoring(players);
 		gameState = 0;
-		return board.toString();
+        String msg = "G~B~"+board.toString();
+		return msg;
 	}
 	
 	public void resetRoom(){
