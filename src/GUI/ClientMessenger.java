@@ -117,7 +117,17 @@ public class ClientMessenger extends Messenger {
                 }
                 break;
             case 'T':
-                //TODO Kimchi has to look at how to implement this
+                if(parsedMessage.length == 3)
+                {
+                    String username = parsedMessage[1];
+                    String chatString = parsedMessage[2];
+                    game.updateChat(username, chatString);
+                }
+                else
+                {
+                    String chatString = parsedMessage[1];
+                    game.updateChat("", chatString);
+                }
                 break;
             case 'P':
                 String flag = parsedMessage[1];

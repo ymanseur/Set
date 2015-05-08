@@ -157,7 +157,7 @@ public class LoginClass extends JFrame implements ActionListener {
 		
 		//add the mainFrame & set initial size (loginsize)
 		add(mainFrame);
-		setSize(500,200);
+		setSize(500,400);
 		setLocationRelativeTo(null);
 		
 		//define close operations & event
@@ -181,7 +181,7 @@ public class LoginClass extends JFrame implements ActionListener {
 		JLabel loginTitleLabel;
 		try{
 			//hard code since it is expected to come from GitHub
-			loginImage = ImageIO.read(new File("src/main/pictures/title_image.png"));
+			loginImage = ImageIO.read(new File("/Users/MSmarsch/Dropbox/Spring 2015/Software/Set/src/images/runescape.png"));
 			
 		}catch (IOException e){
 			imageImport = false;
@@ -296,7 +296,7 @@ public class LoginClass extends JFrame implements ActionListener {
 
         frameLayout = (CardLayout)(mainFrame.getLayout());
 		//enters the new user aka saying welcome and setting up the default button
-        setSize(1000,1000);
+        setSize(1000,800);
 		lobbyFrame.enterNewUser(username, callObject);
 		frameLayout.show(mainFrame, lobbyTitle);
 		south.setVisible(false);
@@ -306,7 +306,7 @@ public class LoginClass extends JFrame implements ActionListener {
 	//second level -> first level
 	public void enterGame() {
 	    gameFrame.gameKeySet();
-	    setSize(1000,500); // figure out appropriate size
+	    setSize(1000,800); // figure out appropriate size
 	    //game_Panel.joinGame();
 	    gameFrame.setGameClient(callObject, playerUsername);
 	    gameFrame.resetEndGame();
@@ -319,7 +319,7 @@ public class LoginClass extends JFrame implements ActionListener {
 	public void exitGame(){
 		gameFrame.gamereset();
 		lobbyFrame.enterKeySet();
-		setSize(1000,500);
+		setSize(1000,800);
 		frameLayout.show(mainFrame, lobbyTitle);
 	}
 	
@@ -335,7 +335,7 @@ public class LoginClass extends JFrame implements ActionListener {
 		lobbyFrame.clearLobby();
 		
 		//reset window size and what gets shown in card layout
-		setSize(500,200);
+		setSize(500,400);
 		frameLayout.show(mainFrame, loginTitle);
 		
 		//have to specify what new default button is for enter key

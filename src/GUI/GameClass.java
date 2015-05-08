@@ -91,7 +91,7 @@ public class GameClass extends JPanel{
     }
 
     public void gameKeySet(){
-        this.getRootPane().setDefaultButton(setcardSubmitButton);
+        this.getRootPane().setDefaultButton(sendMessage);
     }
 
 
@@ -135,7 +135,7 @@ public class GameClass extends JPanel{
         Boolean imageImport = true;
         JLabel titleLabel;
         try{
-            titleImage = ImageIO.read(new File("src/main/pictures/title_image.png"));
+            titleImage = ImageIO.read(new File("/Users/MSmarsch/Dropbox/Spring 2015/Software/Set/src/images/set.jpg"));
         }catch (IOException e){
             imageImport = false;
             titleImage = null;
@@ -198,14 +198,14 @@ public class GameClass extends JPanel{
     //Chat box in the south end
     public void makeSouth()
     {
-        south.setLayout(new BoxLayout(south,BoxLayout.X_AXIS));
+        south.setLayout(new BoxLayout(south,BoxLayout.Y_AXIS));
         chatTitle = new JLabel(chatroomtitle);
         chatTitle.setAlignmentX(CENTER_ALIGNMENT);
-        chatHistory = new JTextArea("",40,10);
+        chatHistory = new JTextArea("",10,10);
         chatScroll = new JScrollPane(chatHistory);
         chatHistory.setLineWrap(true);
         chatHistory.setEditable(false);
-        messageInput = new JTextField(20);
+        messageInput = new JTextField(10);
         sendMessage = new JButton("Send");
         sendMessage.addActionListener(new SendButtonListener());
         sendMessage.setVisible(false);
@@ -264,6 +264,7 @@ public class GameClass extends JPanel{
                     }
                     callObject.messageServer(setSub);
                     cardSelection.clear();
+                    selectedCards.clear();
                 }
             }
         }
@@ -383,8 +384,10 @@ public class GameClass extends JPanel{
                 System.out.println(serverString[2]);
                 System.out.println(serverString[0]);
 
-                if(serverString[1].charAt(0) == 'S' || serverString[1].charAt(0) == 'B')
+                if(serverString[1].charAt(0) == 'S' || serverString[1].charAt(0) == 'N')
                 {
+                    selectedCards.clear();
+                    cardSelection.clear();
                 }
                 else
                 {
@@ -463,7 +466,7 @@ public class GameClass extends JPanel{
                         userNames[i] = user;
                         gameScoreboard[i][0] = user;
                         gameScoreboard[i][1] = score;
-                        System.out.println(userNames[i] + " " + userScores[i]);
+                        System.out.println("Hey: "+userNames[i] + " " + userScores[i]);
                     }
                     west.updateUI();
                 }
