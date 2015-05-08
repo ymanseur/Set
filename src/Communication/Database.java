@@ -9,7 +9,7 @@ public class Database {
 
     static final String URL = "jdbc:mysql://199.98.20.122:3306/SetGame";
     static final String DRIVER = "com.mysql.jdbc.Driver";
-    static final String Username = "root";
+    static final String Username = "msmarsch";
     static final String Password = "software";
 
     public void createTable()
