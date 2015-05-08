@@ -293,12 +293,14 @@ public class LoginClass extends JFrame implements ActionListener {
 	public void login(String username){
 		isLoggedIn = true;
 		playerUsername = username;
-		
+
+        frameLayout = (CardLayout)(mainFrame.getLayout());
 		//enters the new user aka saying welcome and setting up the default button
-		setSize(1000,500);
+        setSize(1000,500);
 		lobbyFrame.enterNewUser(username, callObject);
 		frameLayout.show(mainFrame, lobbyTitle);
 		south.setVisible(false);
+        setTitle("Lobby?");
 	}
 	
 	//second level -> first level

@@ -172,7 +172,8 @@ public class LobbyClass extends JPanel {
 		lobbyPanel.add(north, BorderLayout.NORTH);
 		lobbyPanel.add(south, BorderLayout.SOUTH);
 		lobbyPanel.add(center, BorderLayout.CENTER);
-		
+        add(lobbyPanel);
+
 		// join game popup menu
 //	    joinMenu = new JPopupMenu();
 //	    menuJoin = new JMenuItem("Join Game");
@@ -364,14 +365,19 @@ public class LobbyClass extends JPanel {
 		//listener methods:
 		//list selection listener
 		public class ListItemSelected implements ListSelectionListener{
+            @Override
 			public void valueChanged(ListSelectionEvent event){
+                System.out.println("test2");
 				if(event.getValueIsAdjusting() == false){
+                    System.out.println("test3");
 					if(listOfGames.getSelectedIndex() == -1){
 						//no game has been selected therefore disable join game button
-						joinGameEnabled = false;
+						//joinGameEnabled = false;
+                        joinGame.setEnabled(false);
 					}else{
 						//allow join game button to be enabled
-						joinGameEnabled = true;
+						//joinGameEnabled = true;
+                        joinGame.setEnabled(true);
 					}
 				}
 			}
@@ -386,7 +392,7 @@ public class LobbyClass extends JPanel {
 				//get info that describes a game
 				String activeGameInfo = listOfGames.getSelectedValue();
 				//need to parse the activeGameInfo to get roomID
-				String [] gameInfoSplit = activeGameInfo.split("");
+				String [] gameInfoSplit = activeGameInfo.split(" ");
 				//since our roomInfo string is split up as: "roomID: " we need to parse the roomID
 				//even more and take out the colon
 				roomID = Integer.parseInt(gameInfoSplit[0].substring(0, gameInfoSplit[0].length()-1));

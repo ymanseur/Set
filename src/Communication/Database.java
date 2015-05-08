@@ -71,7 +71,7 @@ public class Database {
             conn = DriverManager.getConnection(URL, Username, Password);
             System.out.println("Connected Successfully!");
             System.out.println("Adding Player...");
-            String command = "INSERT INTO PLAYERS(Username,Password) Values(?,?)";
+            String command = "INSERT INTO PLAYERS(Id, Username,Password) Values(?,?)";
             stmt = conn.prepareStatement(command);
             stmt.setString(1, username);
             stmt.setString(2, password);

@@ -183,6 +183,7 @@ public class ServerMessenger extends Messenger {
                 users.put(userID, account);
                 sendMessage(-1, "P~A~" + username);
                 updateInfo(userID);
+                System.out.println("HEREEEEEEE");
             }
             else
             {
@@ -223,6 +224,7 @@ public class ServerMessenger extends Messenger {
         if(disconnect != null)
         {
             sendMessage(-1, "P~R~" + disconnect.username);
+            System.out.println("got here");
             if(disconnect.roomID >= 0)
             {
                 Game curr = games.get(disconnect.roomID);
@@ -313,6 +315,7 @@ public class ServerMessenger extends Messenger {
             return;
         }
         join.roomID = Integer.parseInt(parsedMessage[1]);
+        System.out.println(join.roomID);
         Game joinedRoom = games.get(join.roomID);
         if(joinedRoom == null)
         {
@@ -407,14 +410,14 @@ public class ServerMessenger extends Messenger {
         Client leaving = users.get(userID);
         if(leaving.roomID < 0)
         {
-            System.err.println("Exit Game Fault.");
+            System.err.println("Exit Game Fault1.");
             return;
         }
         Game oldGame = games.get(leaving.roomID);
         sendMessage(userID, "E");
         if(oldGame == null)
         {
-            System.err.println("Exit Game Fault.");
+            System.err.println("Exit Game Fault2.");
             return;
         }
         else
@@ -542,6 +545,7 @@ public class ServerMessenger extends Messenger {
             game = games.get(gameID);
             if(!game.isDeleted())
             {
+                System.out.println("Updating....");
                 if(game.isActive())
                 {
                     state = "Active";

@@ -106,6 +106,7 @@ public class GameClass extends JPanel{
         gamePanel.add(north, BorderLayout.NORTH);
         gamePanel.add(south, BorderLayout.SOUTH);
         gamePanel.add(center, BorderLayout.CENTER);
+        add(gamePanel);
     }
     //GUI components
     //Scoreboard with list of users

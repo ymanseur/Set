@@ -24,8 +24,11 @@ public class Game {
 	public Game(String name, int maxPlayers){
 		players = new ArrayList<>();
 		this.name = name;
+        ready = 0;
 		this.maxPlayers = maxPlayers;
-		this.gameState = -1;
+		this.gameState = 0;
+        this.isDeleted = false;
+        isBlocking = false;
 	}
 	
 	public String initializeGame(){
