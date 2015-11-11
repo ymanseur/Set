@@ -1,4 +1,5 @@
-package backend;
+package Backend;
+import java.util.*;
 
 /**
  * 
@@ -7,10 +8,12 @@ package backend;
  */
 public class Deck {
 	public int cardsRemaining;
+    //List<Card> deck;
 	public Card[] deck;
 	
 	public Deck(){
 		this.cardsRemaining = 81;
+
 		deck = new Card[this.cardsRemaining];
 		int cardCount = 0; // Number of cards created
 		
@@ -18,6 +21,7 @@ public class Deck {
 			for(int pattern = 0; pattern <= 2; pattern++){
 				for(int shape = 0; shape <= 2; shape++){
 					for(int count = 0; count <= 2; count++){
+                        //deck.add(new Card(color,pattern,shape,count));
 						deck[cardCount] = new Card(color,pattern,shape,count);
 						cardCount++;
 					}

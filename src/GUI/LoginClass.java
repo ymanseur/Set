@@ -1,4 +1,4 @@
-package setGUIjkdg;
+package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout; //imports AWT
@@ -29,9 +29,6 @@ import javax.swing.JTextField;
 //swing event
 // input/output
 
-
-
-import setGUIjkdg.LobbyClass.JoinGameAction;
 
 //main class for the other GUIs that will contain the main frame extended from JFrame
 //and implements ActionListener
@@ -87,7 +84,7 @@ public class LoginClass extends JFrame implements ActionListener {
 	public String playerUsername;
 	
 	//Client Object
-	private playerProtocol callObject;
+	private ClientMessenger callObject;
 	
 	//components of the different panels in login frame textfield(s), label(s), and button(s)
 	
@@ -105,17 +102,17 @@ public class LoginClass extends JFrame implements ActionListener {
 	private JPanel passwordPanel;
 	
 	//need to create error labels
-	private JLabel errorLabel;
+	private JLabel errorLabel = new JLabel();
 	
 	//enter lobby
 	private JButton enterLobbyButton;
 	private JButton registerButton;
 	
 	//boolean to check if succesfully logged in
-	private boolean loggedIn;
+	public boolean isLoggedIn;
 	
 	//LoginClass method
-	public LoginClass(playerProtocol callObject){
+	public LoginClass(ClientMessenger callObject){
 		this.callObject = callObject;
 		
 		//actually create the mainPanel that will have all the other panels
@@ -125,7 +122,7 @@ public class LoginClass extends JFrame implements ActionListener {
 		gameFrame = new GameClass(this, lobbyFrame);
 		frameLayout = (CardLayout)(mainFrame.getLayout());
 		//player protocol to grabPanels
-		callObject.grabPanels(this, lobbyFrame, gameFrame);
+		callObject.setPanels(this, lobbyFrame, gameFrame);
 		
 		//add the three different windows to da mainPanel
 		mainFrame.add(loginPanel, loginTitle);
@@ -136,7 +133,7 @@ public class LoginClass extends JFrame implements ActionListener {
 		frameLayout.show(mainFrame, loginTitle);
 		
 		//intialize login boolean
-		loggedIn = false;
+		isLoggedIn = false;
 		
 		//call loginGUICreation()
 		totalGUICreation();
@@ -160,7 +157,7 @@ public class LoginClass extends JFrame implements ActionListener {
 		
 		//add the mainFrame & set initial size (loginsize)
 		add(mainFrame);
-		setSize(500,500);
+		setSize(500,400);
 		setLocationRelativeTo(null);
 		
 		//define close operations & event
@@ -184,7 +181,7 @@ public class LoginClass extends JFrame implements ActionListener {
 		JLabel loginTitleLabel;
 		try{
 			//hard code since it is expected to come from GitHub
-			loginImage = ImageIO.read(new File("src/main/pictures/title_image.png"));
+			loginImage = ImageIO.read(new File("/Users/MSmarsch/Dropbox/Spring 2015/Software/Set/src/images/runescape.png"));
 			
 		}catch (IOException e){
 			imageImport = false;
@@ -231,11 +228,13 @@ public class LoginClass extends JFrame implements ActionListener {
 		
 		//buttons
 		JPanel buttonPanel = new JPanel();
-		enterLobbyButton = new JButton("Enter");
-		enterLobbyButton.addActionListener(new EnterLobbyAction());
+		enterLobbyButton = new JButton("Login");
+		enterLobbyButton.addActionListener(this);
+        enterLobbyButton.setActionCommand("Login");
+        enterLobbyButton.setAlignmentX(CENTER_ALIGNMENT);
 		registerButton = new JButton("Register");
-		enterLobbyButton.addActionListener(new RegisterAction());
-		enterLobbyButton.setAlignmentX(CENTER_ALIGNMENT);
+		registerButton.addActionListener(this);
+        registerButton.setActionCommand("Register");
 		registerButton.setAlignmentX(CENTER_ALIGNMENT);
 		buttonPanel.add(enterLobbyButton);
 		buttonPanel.add(registerButton);
@@ -264,30 +263,25 @@ public class LoginClass extends JFrame implements ActionListener {
 		south.add(errorLabel);
 		south.setVisible(false);
 	}
-	
-	public class EnterLobbyAction implements ActionListener{
-		public void actionPerformed(ActionEvent event){
-			//send message to server with username & password and 
-			//then clear the contents of the two fields
-			playerUsername = usernameField.getText();
-			char[] playerPassword = passwordField.getPassword();
-			callObject.sendMessageToServer("L~" + playerUsername + "~" + new String(playerPassword));
-			usernameField.setText("");
-			passwordField.setText("");
-			}
-	}
-	
-	public class RegisterAction implements ActionListener{
-		public void actionPerformed(ActionEvent event){
-			//send message to server with username and password registration 
-			//then clear the contents of the two fields
-			playerUsername = usernameField.getText();
-			char[] playerPassword = passwordField.getPassword();
-			callObject.sendMessageToServer("R~" + playerUsername + "~" + new String(playerPassword));
-			usernameField.setText("");
-			passwordField.setText("");
-			}
-	}
+
+	public void actionPerformed(ActionEvent event){
+		//send message to server with username & password and
+		// then clear the contents of the two fields
+		playerUsername = usernameField.getText();
+		char[] playerPassword = passwordField.getPassword();
+        if(event.getActionCommand().equals("Login")) {
+            callObject.messageServer("L~" + playerUsername + "~" + new String(playerPassword));
+        }
+
+		//send message to server with username and password registration
+		//then clear the contents of the two fields
+		else if(event.getActionCommand().equals("Register"))
+        {
+            callObject.messageServer("R~" + playerUsername + "~" + new String(playerPassword));
+        }
+        usernameField.setText("");
+		passwordField.setText("");
+    }
 	
 	//method for setting what error text is and letting it be visible
 	public void displayError(String errorString){
@@ -297,20 +291,22 @@ public class LoginClass extends JFrame implements ActionListener {
 	
 	//third level -> second level
 	public void login(String username){
-		loggedIn = true;
+		isLoggedIn = true;
 		playerUsername = username;
-		
+
+        frameLayout = (CardLayout)(mainFrame.getLayout());
 		//enters the new user aka saying welcome and setting up the default button
-		setSize(1000,500);
+        setSize(1000,800);
 		lobbyFrame.enterNewUser(username, callObject);
 		frameLayout.show(mainFrame, lobbyTitle);
 		south.setVisible(false);
+        setTitle("Lobby?");
 	}
 	
 	//second level -> first level
 	public void enterGame() {
 	    gameFrame.gameKeySet();
-	    setSize(650,700); // figure out appropriate size
+	    setSize(1000,800); // figure out appropriate size
 	    //game_Panel.joinGame();
 	    gameFrame.setGameClient(callObject, playerUsername);
 	    gameFrame.resetEndGame();
@@ -323,7 +319,7 @@ public class LoginClass extends JFrame implements ActionListener {
 	public void exitGame(){
 		gameFrame.gamereset();
 		lobbyFrame.enterKeySet();
-		setSize(1000,500);
+		setSize(1000,800);
 		frameLayout.show(mainFrame, lobbyTitle);
 	}
 	
@@ -331,15 +327,15 @@ public class LoginClass extends JFrame implements ActionListener {
 	//method for logging out (aka going from Lobby to Login)
 	//logout changes dimension from Lobby to Login and sets everything back to Login style
 	public void logout(){
-		loggedIn = false;
+		isLoggedIn = false;
 		//disconnect from server
-		callObject.sendMessageToServer("D");
+		callObject.messageServer("D");
 		
 		//clear lobby frame
 		lobbyFrame.clearLobby();
 		
 		//reset window size and what gets shown in card layout
-		setSize(500,500);
+		setSize(500,400);
 		frameLayout.show(mainFrame, loginTitle);
 		
 		//have to specify what new default button is for enter key
@@ -353,6 +349,4 @@ public class LoginClass extends JFrame implements ActionListener {
 		dispose();
 		System.exit(0);
 	}
-	
-	
 }

@@ -1,4 +1,4 @@
-package backend;
+package Backend;
 /**
  * 
  * @author Yacine
@@ -6,7 +6,7 @@ package backend;
  */
 
 public class Set {
-	Card[] cards;
+	Card[] cards = new Card[3];
 	
 	public Set(Card c1, Card c2, Card c3){
 		cards[0] = c1;
